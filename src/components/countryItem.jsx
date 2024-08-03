@@ -16,12 +16,14 @@ export default function CountryItem() {
     }
 
     GetCountry({ country: search }).then((res) => {
-      setData(res);
+      res.map((el) => {
+        setData(el);
+        console.log(el.common);
+      });
       setInputError(!res);
-      console.log(res);
     });
   }
-    
+
   return (
     <>
       <h1 className="weather__city_title">Поиск стран</h1>
@@ -36,14 +38,13 @@ export default function CountryItem() {
       <button onClick={handleBtn} type="submit" className="weather__btn">
         Поиск
       </button>
-      {data ? (
-        <ul></ul>
-      ) : null}
+      {data ? <div>Страна: {data.name.common}</div> : null}
     </>
   );
 }
 
-{/* <div className="weather">
+{
+  /* <div className="weather">
           <h1>Регион: {data.location.region}</h1>
           <h1 className="weather__city">Город: {data.location.name}</h1>
           {data.forecast.forecastday.map((el) => (
@@ -56,4 +57,5 @@ export default function CountryItem() {
               <p>Дата: {el.date}</p>
             </div>
           ))}
-        </div> */}
+        </div> */
+}
