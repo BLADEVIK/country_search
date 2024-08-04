@@ -1,61 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCountry } from "../api/getCountry";
+import { useParams } from "react-router-dom";
+import { Spinner, Container, Text } from "@chakra-ui/react";
+import "./CountryItem.css";
 
-import "./countryItem.css";
-import GetCountry from "../api/getCountry";
-
-export default function CountryItem() {
-  const [search, setSearch] = useState("");
+export const CountryItem = () => {
+  const { nameCountry } = useParams();
   const [data, setData] = useState(null);
-  const [inputError, setInputError] = useState(false);
-  const handleSearshInput = (event) => {
-    setSearch(event.target.value);
-  };
-  function handleBtn() {
-    if (!search) {
-      return;
-    }
-
-    GetCountry({ country: search }).then((res) => {
-      res.map((el) => {
-        setData(el);
-        console.log(el.common);
-      });
-      setInputError(!res);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    setIsLoading(true);
+    getCountry(nameCountry).then((res) => {
+      setData(res[0]);
+      setIsLoading(false);
+      console.log(res);
     });
-  }
-
+  }, [nameCountry]);
   return (
     <>
-      <h1 className="weather__city_title">Поиск стран</h1>
-      {inputError ? <div>нет такого города</div> : ""}
-      <input
-        className="weather__city_input"
-        onChange={handleSearshInput}
-        placeholder="Введите страну"
-        type="text"
-      />
+      {isLoading && <Spinner w={20} h={20} />}
 
-      <button onClick={handleBtn} type="submit" className="weather__btn">
-        Поиск
-      </button>
-      {data ? <div>Страна: {data.name.common}</div> : null}
+      <Container centerContent maxW="md" color="black">
+        <img
+          className="flagSize"
+          src={data && data.flags.svg}
+          alt={data && data.flags.alt}
+        />
+        <Text fontSize="25px" color="purple">
+          <h4>Страна: {data && data.name.common}</h4>
+          <h4>Континент: {data && data.continents[0]}</h4>
+          <h4>Регион: {data && data.region}</h4>
+          <h4> Столица: {data && data.capital}</h4>
+        </Text>
+      </Container>
     </>
   );
-}
-
-{
-  /* <div className="weather">
-          <h1>Регион: {data.location.region}</h1>
-          <h1 className="weather__city">Город: {data.location.name}</h1>
-          {data.forecast.forecastday.map((el) => (
-            <div className="weather__card" key={el.date_epoch}>
-              <img src={el.day.condition.icon} />
-              <h3>Погода: {el.day.condition.text}</h3>
-              <h2>Температура: {el.day.avgtemp_c} ° </h2>
-              <p>Скорость ветра: {el.day.maxwind_kph} kph</p>
-              <p>Влажность: {el.day.avghumidity} %</p>
-              <p>Дата: {el.date}</p>
-            </div>
-          ))}
-        </div> */
-}
+};
