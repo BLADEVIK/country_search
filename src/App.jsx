@@ -11,7 +11,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<CountryConteiner />} path="/" />
-            <Route element={<CountryItem/>} path="/:nameCountry" />
+            <Route element={<CountryItem />} path="/:nameCountry" />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>
