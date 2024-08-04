@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import "./countryConteiner.css";
+import "./CountryConteiner.css";
 import { getCountryAll } from "../api/getCountry";
 import { Link } from "react-router-dom";
 import { List, ListItem, Spinner } from "@chakra-ui/react";
