@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
 import CountryConteiner from "./components/CountryConteiner";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CountryItem } from "./components/CountryItem";
+import { CountryItem } from "./components/CountryItem.jsx";
 
 function App() {
   return (
