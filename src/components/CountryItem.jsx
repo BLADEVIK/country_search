@@ -25,7 +25,7 @@ export const CountryItem = () => {
         <img
           className="flagSize"
           src={data && data.flags.svg}
-          alt={data && data.flags.alt}
+          alt={!data ?  "" : "Country image flag"}
         />
         <Text fontSize="25px" color="purple">
           <h4>Страна: {data && data.name.common}</h4>
